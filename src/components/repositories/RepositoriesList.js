@@ -4,24 +4,30 @@ import SingleRepository from "./SingleRepository";
 
 function RepositoriesList() {
 
-    const [repos, setRepos] = useState([{}]);
-    const [filters, setFilters] = useState({page:1, per_page:10, visibility:'public'});
+    const initialFilters = {
+        page: 1,
+        per_page: 10,
+        visibility: "public",
+    };
+
+    const [repos, setRepos] = useState([]);
+    const [filters, setFilters] = useState(initialFilters);
 
     useEffect(() => {
         fetchRepos();
-    });
+    }, []);
 
     const fetchRepos = () => {
-        setRepos({ repos: "loading" })
+        setRepos("loading")
         axios.get("https://api.github.com/user/repos", {
             params: filters
         })
         .then((response) => {
-            setRepos({ repos: response.data })
+            setRepos(response.data)
         })
         .catch((error) => {
             console.log(error)
-            setRepos({ repos: [] })
+            setRepos([])
         })
     }
 
