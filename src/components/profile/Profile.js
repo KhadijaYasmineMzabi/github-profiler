@@ -3,15 +3,17 @@ import axios from "axios";
 
 import email from "../../assets/img/email.png";
 import anonymous_avatar from "../../assets/img/anonymous.png";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUserProfile } from "../../redux/actions/profile.actions"
 
 function Profile() {
-  const [profile, setProfile] = useState({});
+  
+  const dispatch = useDispatch();
+  const profile = useSelector((state) => state.profile.userData);
 
   useEffect(() => {
-    axios.get(`https://api.github.com/user`).then((response) => {
-      setProfile(response.data);
-    });
-  });
+    dispatch(fetchUserProfile());
+  }, []);
 
   const handleNavigateToProfile = () => {
     window.location = profile.html_url;
